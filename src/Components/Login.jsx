@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import BtnTheme from "./BtnTheme"
+import {useTheme} from '../Util/ThemeContext'
+import BtnTheme from '../Components/BtnTheme'
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
+    const { theme, setTheme } = useTheme();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -36,10 +38,10 @@ const Login = () => {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100">
-            <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-lg">
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
-                <BtnTheme />
+        <div className={`flex min-h-screen items-center justify-center ${theme === 'dark' ? 'bg-black' : 'bg-gray-100'} `}>
+            <BtnTheme />
+            <div className={`w-full max-w-md p-6 bg-white rounded-2xl shadow-lg`}>
+                <h2 className=" text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="text"

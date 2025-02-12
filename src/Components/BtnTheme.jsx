@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useTheme } from '../Util/ThemeContext';
 
 function BtnTheme() {
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [theme]);
+  const { theme, setTheme } = useTheme();
 
   return (
     <button
-      className="dark:bg-slate-200 px-4 py-2 rounded hover:bg-slate-300 bg-red-600 dark:text-white"
-      onClick={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}
-    >
-      BtnTheme
-    </button>
+        className={`absolute top-4 right-4 px-4 py-2 rounded transition-colors 
+          ${theme === 'dark' ? 'bg-gray-800 text-yellow-300 hover:bg-gray-700' : 'bg-red-600 text-white hover:bg-red-700'}`}
+        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      >
+        {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+      </button>
   );
 }
 
