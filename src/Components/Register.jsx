@@ -64,7 +64,7 @@ const Register = () => {
 
     return (
         <div className={`flex items-center justify-center min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'}`}>
-            <BtnTheme/>
+            <BtnTheme />
             <div className={`p-8 rounded-2xl shadow-md w-96 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -84,7 +84,7 @@ const Register = () => {
                     <button type="submit" className="w-full bg-purple-600 text-white py-2 rounded-xl hover:bg-purple-700 transition">Register</button>
                 </form>
                 <p className={`text-center mt-4 transition-colors duration-300 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Already have an account?
-                    <Link to="/login" className="text-purple-400 hover:underline">Log in</Link>
+                    <Link to="/login" className="text-purple-400 hover:underline"> Log in</Link>
                 </p>
             </div>
         </div>

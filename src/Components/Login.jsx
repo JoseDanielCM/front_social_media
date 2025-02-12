@@ -22,10 +22,11 @@ const Login = () => {
             const response = await axios.post(
                 "http://localhost:1234/auth/login", // Authentication endpoint
                 credentials, // Request body with user credentials
-                { headers: { "Content-Type": "application/json" } } // Set header for JSON
+                { headers: { "Content-Type": "application/json" },
+                withCredentials: true // Habilita el uso de cookies
+            } // Set header for JSON
             );
             // Store JWT token in local storage for future authenticated requests
-            localStorage.setItem("token", response.data.token);
             navigate("/home")
         } catch (error) {
             console.log("holi");
@@ -70,7 +71,7 @@ const Login = () => {
                     </button>
                 </form>
                 <p className="text-center mt-4 transition-colors duration-300 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}">
-                    Don't have an account?
+                    Don't have an account?  
                     <Link to="/register" className="text-indigo-400 hover:underline ml-1">
                         Sign up
                     </Link>
