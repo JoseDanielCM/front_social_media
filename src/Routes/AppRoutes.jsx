@@ -1,8 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Login from '../Components/Login';
 import Register from '../Components/Register';
-// Optionally import Home if you want to include it
-// import Home from './Home'; 
+import Home from '../Pages/Home'; 
 
 export default function AppRoutes() {
 	return (
@@ -10,6 +9,7 @@ export default function AppRoutes() {
 			<Route path="/" element={<Login />} />  {/* Home route or Login */}
 			<Route path="/login" element={<Login />} />  {/* Login route */}
 			<Route path="/register" element={<Register />} />  {/* Register route */}
+			<Route path="/home" element={<Home />} />  {/* Register route */}
 		</Routes>
 	);
 }

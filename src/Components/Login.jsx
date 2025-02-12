@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import {useTheme} from '../Util/ThemeContext'
+import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from '../Util/ThemeContext'
 import BtnTheme from '../Components/BtnTheme'
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
+    const [error, setError] = useState("");
+    const navigate = useNavigate();
     const { theme, setTheme } = useTheme();
 
     const handleChange = (e) => {
@@ -22,15 +24,13 @@ const Login = () => {
                 credentials, // Request body with user credentials
                 { headers: { "Content-Type": "application/json" } } // Set header for JSON
             );
-            console.log("goa");
             // Store JWT token in local storage for future authenticated requests
             localStorage.setItem("token", response.data.token);
-            alert("Login successful!");
+            navigate("/home")
         } catch (error) {
-            console.log("Error details:", error.response ? error.response.data : error);
-            
+            console.log("holi");
             if (axios.isAxiosError(error)) {
-                alert(error.response?.data?.message || "Invalid credentials");
+                setError(error.response?.data?.message || "An unexpected error occurred");
             } else {
                 alert("An unexpected error occurred");
             }
@@ -38,10 +38,11 @@ const Login = () => {
     };
 
     return (
-        <div className={`flex min-h-screen items-center justify-center ${theme === 'dark' ? 'bg-black' : 'bg-gray-100'} `}>
+        <div className={`flex min-h-screen items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'}`}>
             <BtnTheme />
-            <div className={`w-full max-w-md p-6 bg-white rounded-2xl shadow-lg`}>
-                <h2 className=" text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+            <div className={`w-full max-w-md p-6 rounded-2xl shadow-lg transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
+                <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="text"
@@ -50,7 +51,7 @@ const Login = () => {
                         value={credentials.username}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none transition-colors duration-300 ${theme === 'dark' ? 'border-gray-600 bg-gray-700 text-white focus:ring-indigo-400' : 'border-gray-300 bg-white text-black focus:ring-indigo-500'}`}
                     />
                     <input
                         type="password"
@@ -59,7 +60,7 @@ const Login = () => {
                         value={credentials.password}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                        className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none transition-colors duration-300 ${theme === 'dark' ? 'border-gray-600 bg-gray-700 text-white focus:ring-indigo-400' : 'border-gray-300 bg-white text-black focus:ring-indigo-500'}`}
                     />
                     <button
                         type="submit"
@@ -68,14 +69,15 @@ const Login = () => {
                         Login
                     </button>
                 </form>
-                <p className="text-center text-gray-600 mt-4">
+                <p className="text-center mt-4 transition-colors duration-300 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}">
                     Don't have an account?
-                    <Link to="/register" className="text-indigo-600 hover:underline ml-1">
+                    <Link to="/register" className="text-indigo-400 hover:underline ml-1">
                         Sign up
                     </Link>
                 </p>
             </div>
         </div>
+
     );
 };
 
