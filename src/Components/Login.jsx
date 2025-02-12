@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import BtnTheme from "./BtnTheme"
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -19,11 +20,13 @@ const Login = () => {
                 credentials, // Request body with user credentials
                 { headers: { "Content-Type": "application/json" } } // Set header for JSON
             );
-
+            console.log("goa");
             // Store JWT token in local storage for future authenticated requests
             localStorage.setItem("token", response.data.token);
             alert("Login successful!");
         } catch (error) {
+            console.log("Error details:", error.response ? error.response.data : error);
+            
             if (axios.isAxiosError(error)) {
                 alert(error.response?.data?.message || "Invalid credentials");
             } else {
@@ -36,6 +39,7 @@ const Login = () => {
         <div className="flex min-h-screen items-center justify-center bg-gray-100">
             <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-lg">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+                <BtnTheme />
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         type="text"
