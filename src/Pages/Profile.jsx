@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../Components/LogoutButton";
+import { useTheme } from '../Util/ThemeContext'
 
 function Profile() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { theme } = useTheme(); 
 
     useEffect(() => {
         axios
@@ -30,8 +32,8 @@ function Profile() {
     }
 
     return (
-        <div id="profile" className="md:ml-64 p-4 flex flex-col items-center">
-            <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6">
+        <div id="profile" className={`md:ml-64 p-4 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
+            <div className={`w-full max-w-3xl shadow-lg rounded-lg p-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
                 {/* Sección de perfil */}
                 <div className="flex items-center justify-between w-full">
                     <div className="flex items-center space-x-4">
@@ -50,7 +52,7 @@ function Profile() {
                                     WebkitBoxOrient: "vertical",
                                     wordBreak: "break-word"
                                 }}>
-                                {user.bio || "No bio avaliable"}
+                                {user.bio || "No bio available"}
                             </p>
                         </div>
                     </div>

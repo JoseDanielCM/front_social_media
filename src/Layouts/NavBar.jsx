@@ -1,14 +1,14 @@
-import { Home, User, BellRing, PlusCircle, Sun, Moon } from "lucide-react";
+import { Home, User, BellRing, PlusCircle, Sun, Moon, Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "../Util/ThemeContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import LogoutButton from "../Components/LogoutButton"; // Importa el botón de Logout
 
 const navItems = [
     { name: "Home", icon: Home, path: "/home" },
     { name: "Profile", icon: User, path: "/profile" },
     { name: "Notifications", icon: BellRing, path: "/notification" },
     { name: "Add Post", icon: PlusCircle, path: "/post" },
+    { name: "Search", icon: Search, path: "/search" },
 ];
 
 export default function Navbar() {
@@ -70,9 +70,7 @@ export default function Navbar() {
                     </button>
                 </li>
                 {/* Botón de Logout */}
-                <li className="w-full">
-                    <LogoutButton />
-                </li>
+                
             </ul>
         </nav>
     );

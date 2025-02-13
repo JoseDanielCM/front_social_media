@@ -29,7 +29,6 @@ const Login = () => {
             // Store JWT token in local storage for future authenticated requests
             navigate("/home")
         } catch (error) {
-            console.log("holi");
             if (axios.isAxiosError(error)) {
                 setError(error.response?.data?.message || "An unexpected error occurred");
             } else {

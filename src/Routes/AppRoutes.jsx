@@ -9,6 +9,8 @@ import Home from '../Pages/Home';
 import Notification from '../Pages/Notification';
 import Post from '../Pages/Post';
 import Profile from '../Pages/Profile';
+import Search  from "../Pages/Search";
+import EditProfile from '../Pages/EditProfile';
 
 export default function AppRoutes() {
 	const location = useLocation();
@@ -29,6 +31,8 @@ export default function AppRoutes() {
 					<Route path="/notification" element={<Notification />} />  
 					<Route path="/post" element={<Post />} />  
 					<Route path="/profile" element={<Profile />} />  
+					<Route path="/search" element={<Search />} />  
+					<Route path="/edit-profile" element={<EditProfile />} />  
 				</Route>
 			</Routes>
 		</>
