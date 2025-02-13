@@ -35,11 +35,12 @@ const Register = () => {
             const response = await axios.post(
                 "http://localhost:1234/auth/register",
                 user,
-                { headers: { "Content-Type": "application/json" } }
+                { headers: { "Content-Type": "application/json" },
+                withCredentials: true
+            }
             );
             if (response.status !== 200) throw new Error("Registration failed");
-            alert("User registered successfully!");
-            navigate("/login")
+            navigate("/home")
         } catch (errorCatch) {
             console.log(errorCatch);
             if (axios.isAxiosError(errorCatch)) {

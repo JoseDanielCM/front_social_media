@@ -16,12 +16,12 @@ const LogoutButton = () => {
 
     return (
         <button
-            onClick={handleLogout}
-            className="flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
-        >
-            <LogOut size={24} />
-            <span className="hidden md:block">Logout</span>
-        </button>
+        onClick={handleLogout}
+        className="flex items-center gap-2 bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300"
+      >
+        <LogOut size={20} />
+        <span>Logout</span>
+      </button>
     );
 };
 

@@ -1,7 +1,7 @@
 import { Home, User, BellRing, PlusCircle, Sun, Moon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTheme } from "../Util/ThemeContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import LogoutButton from "../Components/LogoutButton"; // Importa el botón de Logout
 
 const navItems = [
@@ -12,11 +12,18 @@ const navItems = [
 ];
 
 export default function Navbar() {
-    const [active, setActive] = useState("Home");
     const { theme, setTheme } = useTheme();
     const isDark = theme === "dark";
     const navigate = useNavigate();
+    const location = useLocation(); // Obtener la ruta actual
     const [notifications, setNotifications] = useState(3);
+    const [active, setActive] = useState("");
+
+    // Actualizar "active" cuando cambie la ubicación
+    useEffect(() => {
+        const currentItem = navItems.find(item => item.path === location.pathname);
+        setActive(currentItem ? currentItem.name : "");
+    }, [location.pathname]);
 
     return (
         <nav
@@ -28,10 +35,7 @@ export default function Navbar() {
                 {navItems.map(({ name, icon: Icon, path }) => (
                     <li key={name} className="w-full">
                         <button
-                            onClick={() => {
-                                setActive(name);
-                                navigate(path);
-                            }}
+                            onClick={() => navigate(path)}
                             className={`flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors ${
                                 active === name
                                     ? isDark
