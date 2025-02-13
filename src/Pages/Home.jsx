@@ -3,9 +3,10 @@ import NavBar from '../Layouts/NavBar'
 
 function Home() {
     return (
-        <div>
+        <div className="md:ml-64">
             hola
         </div>
+
     )
 }
 

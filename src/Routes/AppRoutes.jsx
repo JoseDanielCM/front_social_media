@@ -12,19 +12,19 @@ import Profile from '../Pages/Profile';
 
 export default function AppRoutes() {
 	const location = useLocation();
-	const hideNavbarRoutes = ["/", "/login", "/register"];
+	const hideNavbarRoutes = ["/login", "/register"];
 	const showNavbar = ! hideNavbarRoutes.includes(location.pathname);
 
 	return (
 		<>
 			{showNavbar && <Navbar />}
 			<Routes>
-				<Route path="/" element={<Login />} />  
 				<Route path="/login" element={<Login />} />  
 				<Route path="/register" element={<Register />} />  
 
 				{/* Rutas protegidas */}
 				<Route element={<ProtectedRoute />}>
+					<Route path="/" element={<Home />} />  
 					<Route path="/home" element={<Home />} />  
 					<Route path="/notification" element={<Notification />} />  
 					<Route path="/post" element={<Post />} />  

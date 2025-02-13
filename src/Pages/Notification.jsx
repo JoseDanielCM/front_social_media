@@ -1,9 +1,11 @@
 import React from 'react'
 
 function Notification() {
-  return (
-    <div>Notification</div>
-  )
+    return (
+        <div className="md:ml-64">
+            Notification
+        </div>
+    )
 }
 
 export default Notification
