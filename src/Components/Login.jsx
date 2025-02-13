@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from '../Util/ThemeContext'
 import BtnTheme from '../Components/BtnTheme'
 
+// Elimina la cookie especificando el nombre
+
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
     const [error, setError] = useState("");
@@ -17,6 +19,12 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const cookies = document.cookie.split(";");
+        console.log(cookies);
+        cookies.forEach(cookie => {
+          const cookieName = cookie.split("=")[0].trim();
+          document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        });
 
         try {
             const response = await axios.post(
@@ -26,7 +34,6 @@ const Login = () => {
                 withCredentials: true // Habilita el uso de cookies
             } // Set header for JSON
             );
-            // Store JWT token in local storage for future authenticated requests
             navigate("/home")
         } catch (error) {
             if (axios.isAxiosError(error)) {

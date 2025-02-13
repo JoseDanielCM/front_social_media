@@ -44,7 +44,7 @@ function Profile() {
                         />
                         <div>
                             <h2 className="text-xl font-bold">{user.username}</h2>
-                            <p className="text-gray-600">{user.name}</p>
+                            <p className="text-gray-400">{user.first_name}</p>
                             <p className="text-gray-500 text-sm mt-1 max-w-xs overflow-hidden"
                                 style={{
                                     display: "-webkit-box",
@@ -54,6 +54,8 @@ function Profile() {
                                 }}>
                                 {user.bio || "No bio available"}
                             </p>
+                            <p className="text-gray-400">{user.phone || "No phone number avaliable  "}</p>
+                            
                         </div>
                     </div>
                     <div className="flex space-x-2">
