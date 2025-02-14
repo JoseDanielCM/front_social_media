@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import LogoutButton from "../Components/LogoutButton";
-import { useTheme } from '../Util/ThemeContext';
+import LogoutButton from "../../Components/LogoutButton";
+import { useTheme } from '../../Util/ThemeContext';
 
 function Profile() {
     const [user, setUser] = useState(null);
@@ -38,7 +38,7 @@ function Profile() {
     }, []);
 
     useEffect(() => {
-        if (user && user.profile_picture) {
+        if (user) {
             isImageUrlValid(user.profile_picture).then(isValid => {
                 setIsProfilePicValid(isValid);
             });
@@ -104,8 +104,11 @@ function Profile() {
             </div>
             <div className="w-full max-w-3xl mt-6">
                 <h3 className="text-lg font-semibold mb-4">Publicaciones</h3>
+
+
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {user.posts && user.posts.length > 0 ? (
+                    {
+                    user.posts && user.posts.length > 0 ? (
                         user.posts.map((post, index) => (
                             <img
                                 key={index}
