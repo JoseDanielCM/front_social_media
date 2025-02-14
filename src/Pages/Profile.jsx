@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import LogoutButton from "../Components/LogoutButton";
 import { useTheme } from '../Util/ThemeContext';
 
@@ -9,12 +9,12 @@ function Profile() {
     const [loading, setLoading] = useState(true);
     const [isProfilePicValid, setIsProfilePicValid] = useState(true);
     const navigate = useNavigate();
-    const { theme } = useTheme(); 
-    
+    const { theme } = useTheme();
+
     const isImageUrlValid = async (url) => {
         try {
             const response = await axios.get(`http://localhost:1234/validate-image?url=${encodeURIComponent(url)}`
-            , {withCredentials: true}
+                , { withCredentials: true }
             );
             return response.data;
         } catch (error) {
@@ -27,6 +27,7 @@ function Profile() {
         axios
             .get("http://localhost:1234/api/user/me", { withCredentials: true })
             .then((response) => {
+                console.log(response.data);
                 setUser(response.data);
                 setLoading(false);
             })
@@ -76,9 +77,17 @@ function Profile() {
                             </p>
                             <p className="text-gray-400">{user.phone || "No phone number available"}</p>
                             <div className="mt-2">
+
                                 <p className="text-gray-500 text-sm">
-                                    <strong>{user.followersCount || 0}</strong> seguidores | <strong>{user.followingCount || 0}</strong> seguidos
+                                    <Link to="/followers">
+                                        <strong>{user.followers.length || 0}</strong> followers
+                                    </Link>
+                                    {' || '}
+                                    <Link to="/follows">
+                                        <strong>{user.follows.length || 0}</strong> follows
+                                    </Link>
                                 </p>
+
                             </div>
                         </div>
                     </div>

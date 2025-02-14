@@ -11,6 +11,9 @@ import Post from '../Pages/Post';
 import Profile from '../Pages/Profile';
 import Search  from "../Pages/Search";
 import EditProfile from '../Pages/EditProfile';
+import Follows from '../Pages/Follows';
+import Followers from '../Pages/Followers';
+
 
 import { useTheme } from '../Util/ThemeContext'
 
@@ -37,6 +40,8 @@ export default function AppRoutes() {
 					<Route path="/profile" element={<Profile />} />  
 					<Route path="/search" element={<Search />} />  
 					<Route path="/edit-profile" element={<EditProfile theme={theme} />} />  
+					<Route path="/followers" element={<Followers theme={theme} />} />  
+					<Route path="/follows" element={<Follows theme={theme} />} />  
 				</Route>
 			</Routes>
 		</>

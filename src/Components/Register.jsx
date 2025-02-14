@@ -18,6 +18,12 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const cookies = document.cookie.split(";");
+        console.log(cookies);
+        cookies.forEach(cookie => {
+          const cookieName = cookie.split("=")[0].trim();
+          document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        });
 
         const age = calculateAge(user.birthdate);
         if (age < 0) {
