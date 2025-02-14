@@ -12,10 +12,14 @@ import Profile from '../Pages/Profile';
 import Search  from "../Pages/Search";
 import EditProfile from '../Pages/EditProfile';
 
+import { useTheme } from '../Util/ThemeContext'
+
+
 export default function AppRoutes() {
 	const location = useLocation();
 	const hideNavbarRoutes = ["/login", "/register"];
 	const showNavbar = ! hideNavbarRoutes.includes(location.pathname);
+    const { theme } = useTheme(); 
 
 	return (
 		<>
@@ -32,7 +36,7 @@ export default function AppRoutes() {
 					<Route path="/post" element={<Post />} />  
 					<Route path="/profile" element={<Profile />} />  
 					<Route path="/search" element={<Search />} />  
-					<Route path="/edit-profile" element={<EditProfile />} />  
+					<Route path="/edit-profile" element={<EditProfile theme={theme} />} />  
 				</Route>
 			</Routes>
 		</>

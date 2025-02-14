@@ -2,13 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "../Components/LogoutButton";
-import { useTheme } from '../Util/ThemeContext'
+import { useTheme } from '../Util/ThemeContext';
 
 function Profile() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [isProfilePicValid, setIsProfilePicValid] = useState(true);
     const navigate = useNavigate();
     const { theme } = useTheme(); 
+    
+    const isImageUrlValid = async (url) => {
+        try {
+            const response = await axios.get(`http://localhost:1234/validate-image?url=${encodeURIComponent(url)}`
+            , {withCredentials: true}
+            );
+            return response.data;
+        } catch (error) {
+            console.error('Error validating image URL:', error);
+            return false;
+        }
+    };
 
     useEffect(() => {
         axios
@@ -23,6 +36,14 @@ function Profile() {
             });
     }, []);
 
+    useEffect(() => {
+        if (user && user.profile_picture) {
+            isImageUrlValid(user.profile_picture).then(isValid => {
+                setIsProfilePicValid(isValid);
+            });
+        }
+    }, [user]);
+
     if (loading) {
         return <p className="text-center text-gray-500">Cargando usuario...</p>;
     }
@@ -34,16 +55,15 @@ function Profile() {
     return (
         <div id="profile" className={`md:ml-64 p-4 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
             <div className={`w-full max-w-3xl shadow-lg rounded-lg p-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
-                {/* Sección de perfil */}
-                <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center space-x-4">
+                <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full">
+                    <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <img
-                            src={user.profilePicture || "/public/userNoImage.webp"}
+                            src={isProfilePicValid ? user.profile_picture : "/public/userNoImage.webp"}
                             alt="Profile"
-                            className="w-24 h-24 rounded-full border-2 border-gray-300"
+                            className="w-28 h-28 sm:w-24 sm:h-24 rounded-full border-2 border-gray-300"
                         />
-                        <div>
-                            <h2 className="text-xl font-bold">{user.username}</h2>
+                        <div className="text-center sm:text-left">
+                            <h2 className="text-lg sm:text-xl font-bold">{user.username}</h2>
                             <p className="text-gray-400">{user.first_name}</p>
                             <p className="text-gray-500 text-sm mt-1 max-w-xs overflow-hidden"
                                 style={{
@@ -54,11 +74,15 @@ function Profile() {
                                 }}>
                                 {user.bio || "No bio available"}
                             </p>
-                            <p className="text-gray-400">{user.phone || "No phone number avaliable  "}</p>
-                            
+                            <p className="text-gray-400">{user.phone || "No phone number available"}</p>
+                            <div className="mt-2">
+                                <p className="text-gray-500 text-sm">
+                                    <strong>{user.followersCount || 0}</strong> seguidores | <strong>{user.followingCount || 0}</strong> seguidos
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex space-x-2">
+                    <div className="flex space-x-2 mt-4 sm:mt-0">
                         <button
                             onClick={() => navigate("/edit-profile")}
                             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
@@ -69,11 +93,9 @@ function Profile() {
                     </div>
                 </div>
             </div>
-
-            {/* Espacio para publicaciones */}
             <div className="w-full max-w-3xl mt-6">
                 <h3 className="text-lg font-semibold mb-4">Publicaciones</h3>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                     {user.posts && user.posts.length > 0 ? (
                         user.posts.map((post, index) => (
                             <img
