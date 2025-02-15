@@ -7,7 +7,7 @@ import Navbar from '../Layouts/NavBar';
 
 import Home from '../Pages/Main/Home';
 import Notification from '../Pages/Notification';
-import Post from '../Pages/Main/Post';
+import CreatePost from '../Pages/Main/CreatePost';
 import Profile from '../Pages/Main/Profile';
 import Search  from "../Pages/Main/Search";
 import EditProfile from '../Pages/Profile/EditProfile';
@@ -36,9 +36,9 @@ export default function AppRoutes() {
 					<Route path="/" element={<Home />} />  
 					<Route path="/home" element={<Home />} />  
 					<Route path="/notification" element={<Notification />} />  
-					<Route path="/post" element={<Post />} />  
+					<Route path="/post" element={<CreatePost theme={theme} />} />  
 					<Route path="/profile" element={<Profile />} />  
-					<Route path="/search" element={<Search />} />  
+					<Route path="/search" element={<Search theme={theme} />} />  
 					<Route path="/edit-profile" element={<EditProfile theme={theme} />} />  
 					<Route path="/followers" element={<Followers theme={theme} />} />  
 					<Route path="/follows" element={<Follows theme={theme} />} />  

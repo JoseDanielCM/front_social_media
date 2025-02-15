@@ -35,7 +35,7 @@ function Follows({ theme }) {
             >
                 Volver al perfil
             </button>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center ">
                 {Follows.map((follower) => (
                     <div key={follower.id} className={`mb-4 w-full max-w-3xl p-4 border rounded-lg shadow-md flex items-center justify-between ${cardClasses}`}>
                         <img
