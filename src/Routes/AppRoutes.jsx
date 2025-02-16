@@ -33,8 +33,8 @@ export default function AppRoutes() {
 
 				{/* Rutas protegidas */}
 				<Route element={<ProtectedRoute />}>
-					<Route path="/" element={<Home />} />  
-					<Route path="/home" element={<Home />} />  
+					<Route path="/" element={<Home theme={theme} />} />  
+					<Route path="/home" element={<Home theme={theme} />} />  
 					<Route path="/notification" element={<Notification />} />  
 					<Route path="/post" element={<CreatePost theme={theme} />} />  
 					<Route path="/profile" element={<Profile />} />  
