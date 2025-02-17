@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function Comment({ comment, theme }) {
+function Comment({ comment, theme, mentions }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {

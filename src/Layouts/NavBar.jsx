@@ -2,6 +2,7 @@ import { Home, User, BellRing, PlusCircle, Sun, Moon, Search } from "lucide-reac
 import { useState, useEffect } from "react";
 import { useTheme } from "../Util/ThemeContext";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const navItems = [
     { name: "Home", icon: Home, path: "/home" },
@@ -16,41 +17,57 @@ export default function Navbar() {
     const isDark = theme === "dark";
     const navigate = useNavigate();
     const location = useLocation(); // Obtener la ruta actual
-    const [notifications, setNotifications] = useState(3);
+    const [notifications, setNotifications] = useState([]);
     const [active, setActive] = useState("");
-
     // Actualizar "active" cuando cambie la ubicación
     useEffect(() => {
         const currentItem = navItems.find(item => item.path === location.pathname);
         setActive(currentItem ? currentItem.name : "");
     }, [location.pathname]);
 
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            
+            const response = await axios.get("http://localhost:1234/api/notifications/getAll", { withCredentials: true });
+            const data = await response.data;
+            
+            setNotifications(data);
+            
+        };
+
+        fetchNotifications(); // Llamada inicial
+        const interval = setInterval(fetchNotifications, 5000); // Consulta cada 5 segundos
+
+        return () => clearInterval(interval); // Limpia el intervalo al desmontar
+    }, []);
+
+    useEffect(() => {
+        console.log(notifications); // Verifica que las notificaciones se estén actualizando correctamente
+    }, [notifications]);
     return (
         <nav
-            className={`fixed bottom-0 left-0 right-0 md:top-0 md:left-0 md:h-screen md:w-64 shadow-md md:shadow-lg transition-colors ${
-                isDark ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-            }`}
+            className={`fixed bottom-0 left-0 right-0 md:top-0 md:left-0 md:h-screen md:w-64 shadow-md md:shadow-lg transition-colors ${isDark ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+                }`}
         >
             <ul className="flex md:flex-col justify-around md:justify-start md:gap-8 p-2 md:p-4">
                 {navItems.map(({ name, icon: Icon, path }) => (
                     <li key={name} className="w-full">
                         <button
                             onClick={() => navigate(path)}
-                            className={`flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors ${
-                                active === name
+                            className={`flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors ${active === name
                                     ? isDark
                                         ? "bg-gray-800 text-blue-400"
                                         : "bg-gray-200 text-blue-600"
                                     : isDark
-                                    ? "hover:bg-gray-700"
-                                    : "hover:bg-gray-100"
-                            }`}
+                                        ? "hover:bg-gray-700"
+                                        : "hover:bg-gray-100"
+                                }`}
                         >
                             <div className="relative">
                                 <Icon size={24} />
-                                {name === "Notifications" && notifications > 0 && (
+                                {name === "Notifications" && notifications.length > 0 && (
                                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                                        {notifications}
+                                        {notifications.length}
                                     </span>
                                 )}
                             </div>
@@ -61,16 +78,15 @@ export default function Navbar() {
                 <li className="w-full">
                     <button
                         onClick={() => setTheme(isDark ? "light" : "dark")}
-                        className={`flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors ${
-                            isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
-                        }`}
+                        className={`flex flex-col md:flex-row items-center md:items-start gap-2 p-2 w-full rounded-lg transition-colors ${isDark ? "hover:bg-gray-700" : "hover:bg-gray-100"
+                            }`}
                     >
                         {isDark ? <Sun size={24} /> : <Moon size={24} />}
                         <span className="hidden md:block">{isDark ? "Light Mode" : "Dark Mode"}</span>
                     </button>
                 </li>
                 {/* Botón de Logout */}
-                
+
             </ul>
         </nav>
     );

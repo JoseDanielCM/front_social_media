@@ -8,12 +8,31 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
     const [newComment, setNewComment] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const [mentions, setMentions] = useState([]);
+
+
     useEffect(() => {
         setLocalComments(comments);
     }, [comments]);
 
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+        setNewComment(value)
+
+        // Expresión regular para detectar palabras que comienzan con "@"
+        const mentionPattern = /@(\w+)/g;
+        const foundMentions = [...value.matchAll(mentionPattern)].map(match => match[1]);
+
+        setMentions(foundMentions);
+    };
     const handleAddComment = async () => {
+        setMentions([]);
         if (newComment.trim() === "") return;
+
+        if (newComment.length > 200) {
+            return
+        }
 
         setLoading(true);
 
@@ -27,9 +46,9 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
             const newCommentFromAPI = response.data;
 
             setLocalComments([...localComments, newCommentFromAPI]);
-            setNewComment(""); 
+            setNewComment("");
 
-            
+
         } catch (error) {
             console.error("Error al agregar comentario:", error.response ? error.response.data : error.message);
         } finally {
@@ -52,7 +71,7 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                 <div className="flex-1 overflow-y-auto mt-4">
                     {localComments.length > 0 ? (
                         localComments.map((comment, index) => (
-                            <Comment key={comment.id || index} comment={comment} theme={theme} />
+                            <Comment key={comment.id || index} comment={comment} theme={theme} mentions={mentions} />
                         ))
                     ) : (
                         <p className="text-gray-500">No Comments yet.</p>
@@ -63,10 +82,10 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                 <div className="mt-4 pt-1">
                     <input
                         type="text"
-                        placeholder="Escribe un comentario..."
+                        placeholder="send a comment..."
                         className={`w-full border rounded-md p-2 ${theme === 'dark' ? 'bg-gray-800 text-white border-gray-600' : 'bg-white text-black border-gray-300'}`}
                         value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
+                        onChange={handleChange}
                         disabled={loading}
                     />
                     <button
@@ -76,6 +95,9 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                     >
                         {loading ? "Comentando..." : "Comentar"}
                     </button>
+                    <div>
+                        <strong>Menciones detectadas:</strong> {mentions.join(", ")}
+                    </div>
                 </div>
             </div>
         </div>
