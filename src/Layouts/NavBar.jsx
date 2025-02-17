@@ -25,21 +25,7 @@ export default function Navbar() {
         setActive(currentItem ? currentItem.name : "");
     }, [location.pathname]);
 
-    useEffect(() => {
-        const fetchNotifications = async () => {
-            
-            const response = await axios.get("http://localhost:1234/api/notifications/getAll", { withCredentials: true });
-            const data = await response.data;
-            
-            setNotifications(data);
-            
-        };
 
-        fetchNotifications(); // Llamada inicial
-        const interval = setInterval(fetchNotifications, 5000); // Consulta cada 5 segundos
-
-        return () => clearInterval(interval); // Limpia el intervalo al desmontar
-    }, []);
 
     useEffect(() => {
         console.log(notifications); // Verifica que las notificaciones se estén actualizando correctamente
