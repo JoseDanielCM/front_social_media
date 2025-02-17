@@ -48,12 +48,35 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
             setLocalComments([...localComments, newCommentFromAPI]);
             setNewComment("");
 
+            // add mentions
 
+            const MentionNotificationRequest = {
+                comment_id: newCommentFromAPI.id,
+                post_id: idPost,
+                commenter_id: idUser,
+                mentioned_users: mentions
+            }
+
+            console.log(MentionNotificationRequest);
+
+            const responseMentions = await axios.post(
+                `http://localhost:1234/api/notifications/notify-mentions`,
+                MentionNotificationRequest,
+                { withCredentials: true }
+            );
+
+            const mentionData = responseMentions.data;
+
+            console.log(mentionData);
+            
         } catch (error) {
             console.error("Error al agregar comentario:", error.response ? error.response.data : error.message);
         } finally {
             setLoading(false);
         }
+
+
+
     };
 
     return (
