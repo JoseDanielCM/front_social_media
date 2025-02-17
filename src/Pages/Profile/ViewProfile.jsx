@@ -3,15 +3,33 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { isImageUrlValid } from '../../Util/validator'; // Ruta del archivo
-import PostView  from "../../Components/Post/PostView";
+import PostView from "../../Components/Post/PostView";
 
 function ViewProfile({ theme }) {
+    // profile user NOT ME
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
     const { user_id } = useParams();
+    const [loading, setLoading] = useState(true);
     const [isProfilePicValid, setIsProfilePicValid] = useState(true);
     const navigate = useNavigate();
     const [isFollowed, setIsFollowed] = useState(false);
+
+
+    const [original, setOriginal] = useState(null);
+
+    // get user online information
+    useEffect(() => {
+        axios.get("http://localhost:1234/api/user/me", { withCredentials: true })
+            .then(response => {
+                setOriginal(response.data);
+
+            })
+            .catch(error => {
+                console.error("Error al obtener usuario", error);
+            });
+    }, []);
+
+    // images validations
     useEffect(() => {
         if (user) {
             isImageUrlValid(user.profile_picture).then(isValid => {
@@ -35,14 +53,17 @@ function ViewProfile({ theme }) {
             });
     }, [user_id]);
 
-    
+    // check if its followed
     useEffect(() => {
         if (!user) return;
+        if (!original) return;
 
-        axios.get(`http://localhost:1234/api/likes/userHaveLiked/${id}/${userAccount.id}`, { withCredentials: true })
+        axios.get(`http://localhost:1234/api/follows/isFollowed/${original.id}/${user.id}`, { withCredentials: true })
             .then(response => {
-                setLiked(response.data);
+                setIsFollowed(response.data);
                 setLoading(false);
+                console.log(isFollowed);
+
             })
             .catch(error => {
                 console.error("Error al obtener usuario del post", error);
@@ -51,7 +72,26 @@ function ViewProfile({ theme }) {
     }, [user]);
 
     const handleFollow = async () => {
-        
+        if (isFollowed) {
+            // dejar de seguir
+            axios.delete(`http://localhost:1234/api/follows/unfollow/${original.id}/${user.id}`, { withCredentials: true })
+                .then(response => {
+                    setIsFollowed(false);
+                })
+                .catch(error => {
+                    console.error("Error al dejar de seguir usuario", error);
+                });
+        } else {
+
+            // seguir
+            axios.post(`http://localhost:1234/api/follows/follow/${original.id}/${user.id}`, {}, { withCredentials: true })
+                .then(response => {
+                    setIsFollowed(true);
+                })
+                .catch(error => {
+                    console.error("Error al seguir usuario", error);
+                });
+        }
     };
 
     if (loading) {
@@ -63,7 +103,7 @@ function ViewProfile({ theme }) {
     }
 
     return (
-        <div id="profile" className={`md:ml-64 p-4 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
+        <div id="profile" className={`md:ml-64 pb-20 p-4 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
             <div className={`w-full max-w-3xl shadow-lg rounded-lg p-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
                 <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full">
                     <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -103,10 +143,11 @@ function ViewProfile({ theme }) {
                         </button>
                         <button
                             onClick={handleFollow}
-                            className={`px-4 py-2 rounded-lg  text-white`}
+                            className={`px-4 py-2 rounded-lg text-white bg-blue-500 hover:bg-blue-700 focus:outline-none transition-all duration-300 cursor-pointer`}
                         >
-                            {'Follow'}
+                            {isFollowed ? "Unfollow" : "Follow"}
                         </button>
+
                     </div>
                 </div>
             </div>
