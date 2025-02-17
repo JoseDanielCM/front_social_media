@@ -152,7 +152,7 @@ function ViewProfile({ theme }) {
                 </div>
             </div>
             <div className="w-full max-w-3xl mt-6">
-                <h3 className="text-lg font-semibold mb-4">Publicaciones</h3>
+                <h3 className="text-lg font-semibold mb-4">Posts</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-10">
                     {
                         user.posts && user.posts.length > 0 ? (
@@ -161,7 +161,7 @@ function ViewProfile({ theme }) {
                             ))
 
                         ) : (
-                            <p className="text-gray-500">No hay publicaciones aún.</p>
+                            <p className="text-gray-500">No Posts yet.</p>
                         )}
                 </div>
             </div>
