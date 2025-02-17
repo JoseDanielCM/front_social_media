@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { isImageUrlValid } from '../../Util/validator'; // Ruta del archivo
+import PostView  from "../../Components/Post/PostView";
 
 function ViewProfile({ theme }) {
     const [user, setUser] = useState(null);
@@ -93,19 +94,16 @@ function ViewProfile({ theme }) {
             </div>
             <div className="w-full max-w-3xl mt-6">
                 <h3 className="text-lg font-semibold mb-4">Publicaciones</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {user.posts && user.posts.length > 0 ? (
-                        user.posts.map((post, index) => (
-                            <img
-                                key={index}
-                                src={post.imageUrl}
-                                alt="Post"
-                                className="w-full h-32 object-cover rounded-lg"
-                            />
-                        ))
-                    ) : (
-                        <p className="text-gray-500">No hay publicaciones aún.</p>
-                    )}
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-10">
+                    {
+                        user.posts && user.posts.length > 0 ? (
+                            user.posts.map((post) => (
+                                <PostView theme={theme} key={post.id} {...post} userAccount={user} />
+                            ))
+
+                        ) : (
+                            <p className="text-gray-500">No hay publicaciones aún.</p>
+                        )}
                 </div>
             </div>
         </div>

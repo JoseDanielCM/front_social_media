@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
-import { Heart, Orbit, Edit, Trash, Save, X } from "lucide-react";
+import { Heart, Orbit, X } from "lucide-react";
 import axios from "axios";
 import CommentModal from "../../Components/CommentModal"; // Importamos el modal
 
 function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
-
-    // id -> post id
     const [likesPage, setLikesPage] = useState(likes.length);
     const [liked, setLiked] = useState(false);
     // usuario que creo el post
@@ -14,18 +12,9 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
     const [showComments, setShowComments] = useState(false);
     const [postComments, setPostComments] = useState(comments);
 
-    const [editing, setEditing] = useState(false)
-
-    const [pTitle, setTitle] = useState(title);
-    const [pContent, setContent] = useState(content);
-    const [pImg, setImgUrl] = useState(img_url);
-
-    const [editedTitle, setEditedTitle] = useState(title);
-    const [editedContent, setEditedContent] = useState(content);
-    const [editedImgUrl, setEditedImgUrl] = useState(img_url);
     useEffect(() => {
         console.log(tags);
-
+        
         axios.get(`http://localhost:1234/api/posts/getUserByPost/${id}`, { withCredentials: true })
             .then(response => {
                 setUser(response.data);
@@ -71,47 +60,6 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
         }
     };
 
-    const handleEdit = async () => {
-        setEditing(!editing);
-
-
-        setEditedContent(pContent)
-        setEditedTitle(pTitle)
-        setEditedImgUrl(pImg)
-    };
-
-    const handleSubmit = async () => {
-        try {
-            // Crear el objeto con los datos editados
-            const updatedPost = {
-                title: editedTitle,
-                content: editedContent,
-                img_url: editedImgUrl,
-            };
-            console.log(updatedPost);
-            
-            // Realizar la petición PUT (reemplaza `postId` con el id real)
-            await axios.put(`http://localhost:1234/api/posts/update/${id}`, updatedPost, {
-                withCredentials: true, // Habilita el envío de cookies
-            });    
-
-
-
-            // Actualizar el estado
-            setTitle(editedTitle);
-            setContent(editedContent);
-            setImgUrl(editedImgUrl);
-            setEditing(false);
-    
-            // Restaurar los valores originales
-            setEditedContent(pContent);
-            setEditedTitle(pTitle);
-            setEditedImgUrl(pImg);
-        } catch (error) {
-            console.error("Error al actualizar el post:", error);
-        }
-    };
-
     const updateComments = async () => {
         try {
             const response = await axios.get(`http://localhost:1234/api/comments/getByPost/${id}`
@@ -136,55 +84,20 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                     alt={user?.username || "Usuario desconocido"}
                     className="w-10 h-10 rounded-full mr-3"
                 />
-                <div className="flex-grow">
+                <div>
                     <p className="font-semibold">{user?.username || "Usuario desconocido"}</p>
                     <p className="text-xs text-gray-500">{new Date(created_at).toLocaleString()}</p>
                 </div>
-
-                <div className="flex space-x-2">
-                    {/* Btn Edit */}
-                    <button
-                        className="bg-yellow-500 p-2 rounded-full hover:bg-yellow-600 transition duration-300"
-                        onClick={handleEdit}
-                    >
-                        {editing ? (
-                            <X size={20} color="white" />
-                        ) : (
-                            <Edit size={20} color="white" />
-                        )
-                        }
-                    </button>
-
-                    {/* Btn Delete */}
-                    <button
-                        className="bg-red-500 p-2 rounded-full hover:bg-red-600 transition duration-300"
-                        onClick={() => console.log("Delete post", id)}
-                    >
-                        <Trash size={20} color="white" />
-                    </button>
-                </div>
             </div>
-
-            {/* TITLE  */}
-            {editing ? (
-                <input type="text" value={editedTitle} onChange={(e) => setEditedTitle(e.target.value)} className="w-full p-2 border rounded mb-2" />
-            ) : (
-                <h2 className="text-lg font-bold mb-2">{pTitle}</h2>
+            <h2 className="text-lg font-bold mb-2">{title}</h2>
+            <p className="mb-2">{content}</p>
+            {img_url && (
+                <img
+                    src={img_url}
+                    alt="Post image"
+                    className="w-full h-60 object-cover rounded-lg mt-2"
+                />
             )}
-
-            {editing ? (
-                <textarea value={editedContent} onChange={(e) => setEditedContent(e.target.value)} className="w-full p-2 border rounded mb-2"></textarea>
-            ) : (
-                <p className="mb-2">{pContent}</p>
-            )}
-            
-            {editing ? (
-                <input type="text" value={editedImgUrl} onChange={(e) => setEditedImgUrl(e.target.value)} placeholder="URL de la imagen" className="w-full p-2 border rounded mb-2" />
-            ) : (
-                pImg && <img src={pImg} alt="Post image" className="w-full h-60 object-cover rounded-lg mt-2" />
-            )}
-
-
             {/* Sección de Tags */}
             {tags && tags.length > 0 && (
                 <div className="mt-2">
@@ -211,17 +124,6 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                 >
                     <Orbit size={18} /> <span>{postComments.length} Comments</span>
                 </button>
-
-
-                {/* EDIT */}
-                {editing && (
-                    <button
-                        className="flex items-center font-semibold space-x-1 text-green-400"
-                        onClick={handleSubmit}
-                    >
-                        <Save size={18} /> <span>Save</span>
-                    </button>
-                )}
             </div>
 
             {showComments && (
