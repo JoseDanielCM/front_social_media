@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Heart, Orbit, X } from "lucide-react";
 import axios from "axios";
 import CommentModal from "../../Components/CommentModal"; // Importamos el modal
+import ImageModal from "../../Components/Post/ImageModal"; // Importamos el nuevo modal
 
-function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
+function PostView({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
     const [likesPage, setLikesPage] = useState(likes.length);
     const [liked, setLiked] = useState(false);
     // usuario que creo el post
@@ -12,9 +13,11 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
     const [showComments, setShowComments] = useState(false);
     const [postComments, setPostComments] = useState(comments);
 
+    const [showImageModal, setShowImageModal] = useState(false);
+
     useEffect(() => {
         console.log(tags);
-        
+
         axios.get(`http://localhost:1234/api/posts/getUserByPost/${id}`, { withCredentials: true })
             .then(response => {
                 setUser(response.data);
@@ -95,9 +98,14 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                 <img
                     src={img_url}
                     alt="Post image"
-                    className="w-full h-60 object-cover rounded-lg mt-2"
+                    className="w-full h-60 object-cover rounded-lg mt-2 cursor-pointer"
+                    onClick={() => setShowImageModal(true)}
                 />
             )}
+
+            {showImageModal && <ImageModal imgUrl={img_url} onClose={() => setShowImageModal(false)} />}
+
+
             {/* Sección de Tags */}
             {tags && tags.length > 0 && (
                 <div className="mt-2">
@@ -142,4 +150,4 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
     );
 }
 
-export default Post;
+export default PostView;

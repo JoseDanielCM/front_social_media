@@ -157,7 +157,7 @@ function ViewProfile({ theme }) {
                     {
                         user.posts && user.posts.length > 0 ? (
                             user.posts.map((post) => (
-                                <PostView theme={theme} key={post.id} {...post} userAccount={user} />
+                                <PostView theme={theme} key={post.id} {...post} userAccount={original} />
                             ))
 
                         ) : (

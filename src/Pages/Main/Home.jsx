@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Post from "../../Components/Post";
 
@@ -7,6 +8,7 @@ function Home({ theme }) {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [sortBy, setSortBy] = useState("date");
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get("http://localhost:1234/api/user/me", { withCredentials: true })
@@ -46,13 +48,26 @@ function Home({ theme }) {
     }
 
     return (
-        <div className={`md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+        <div className={`relative md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+            {/* Perfil en la esquina superior derecha */}
+            <div 
+                className="absolute top-4 right-4 flex items-center gap-2 cursor-pointer hover:opacity-80"
+                onClick={() => navigate(`/profile`)}
+            >
+                <img 
+                    src={user.profile_picture || "https://via.placeholder.com/40"} 
+                    alt="Profile" 
+                    className="w-12 h-12 rounded-full border-2 border-gray-300"
+                />
+                <span className="font-semibold">{user.username}</span>
+            </div>
+
             <h1 className="text-2xl font-bold my-4 text-center mb-0">Welcome, {user.username}</h1>
             <div className="flex gap-2 mb-6 mt-3 justify-center">
                 <button 
                     className={`px-4 py-2 rounded ${sortBy === "date" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} 
                     onClick={() => setSortBy("date")}
-                >Chronological </button>
+                >Chronological</button>
                 <button 
                     className={`px-4 py-2 rounded ${sortBy === "popularity" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} 
                     onClick={() => setSortBy("popularity")}
