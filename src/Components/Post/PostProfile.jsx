@@ -3,7 +3,7 @@ import { Heart, Orbit, Edit, Trash, Save, X } from "lucide-react";
 import axios from "axios";
 import CommentModal from "../../Components/CommentModal"; // Importamos el modal
 
-function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
+function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount, refreshPosts  }) {
 
     // id -> post id
     const [likesPage, setLikesPage] = useState(likes.length);
@@ -71,6 +71,19 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
         }
     };
 
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este post?");
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`http://localhost:1234/api/posts/delete/${id}`, { withCredentials: true });
+            refreshPosts(id); // Notificar al padre para actualizar los posts
+        } catch (error) {
+            console.error("Error al eliminar el post", error);
+            alert("Hubo un error al eliminar el post");
+        }
+    };
+
     const handleEdit = async () => {
         setEditing(!editing);
 
@@ -89,11 +102,11 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                 img_url: editedImgUrl,
             };
             console.log(updatedPost);
-            
+
             // Realizar la petición PUT (reemplaza `postId` con el id real)
             await axios.put(`http://localhost:1234/api/posts/update/${id}`, updatedPost, {
                 withCredentials: true, // Habilita el envío de cookies
-            });    
+            });
 
 
 
@@ -102,7 +115,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
             setContent(editedContent);
             setImgUrl(editedImgUrl);
             setEditing(false);
-    
+
             // Restaurar los valores originales
             setEditedContent(pContent);
             setEditedTitle(pTitle);
@@ -158,7 +171,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                     {/* Btn Delete */}
                     <button
                         className="bg-red-500 p-2 rounded-full hover:bg-red-600 transition duration-300"
-                        onClick={() => console.log("Delete post", id)}
+                            onClick={handleDelete}
                     >
                         <Trash size={20} color="white" />
                     </button>
@@ -177,7 +190,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
             ) : (
                 <p className="mb-2">{pContent}</p>
             )}
-            
+
             {editing ? (
                 <input type="text" value={editedImgUrl} onChange={(e) => setEditedImgUrl(e.target.value)} placeholder="URL de la imagen" className="w-full p-2 border rounded mb-2" />
             ) : (

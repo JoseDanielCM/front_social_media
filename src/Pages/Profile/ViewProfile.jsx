@@ -11,7 +11,7 @@ function ViewProfile({ theme }) {
     const { user_id } = useParams();
     const [isProfilePicValid, setIsProfilePicValid] = useState(true);
     const navigate = useNavigate();
-
+    const [isFollowed, setIsFollowed] = useState(false);
     useEffect(() => {
         if (user) {
             isImageUrlValid(user.profile_picture).then(isValid => {
@@ -20,13 +20,14 @@ function ViewProfile({ theme }) {
         }
     }, [user]);
 
+    // info user pagina
     useEffect(() => {
         axios
             .get(`http://localhost:1234/api/user/getUser/${user_id}`, { withCredentials: true })
             .then((response) => {
                 console.log(response.data);
                 setUser(response.data);
-                setLoading(false);
+                // setLoading(false);
             })
             .catch((error) => {
                 console.error("Error al obtener usuario", error);
@@ -34,7 +35,24 @@ function ViewProfile({ theme }) {
             });
     }, [user_id]);
 
+    
+    useEffect(() => {
+        if (!user) return;
 
+        axios.get(`http://localhost:1234/api/likes/userHaveLiked/${id}/${userAccount.id}`, { withCredentials: true })
+            .then(response => {
+                setLiked(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error al obtener usuario del post", error);
+                setLoading(false);
+            });
+    }, [user]);
+
+    const handleFollow = async () => {
+        
+    };
 
     if (loading) {
         return <p className="text-center text-gray-500">Cargando usuario...</p>;
@@ -84,7 +102,7 @@ function ViewProfile({ theme }) {
                             Back to profile
                         </button>
                         <button
-                            //onClick={handleFollow}
+                            onClick={handleFollow}
                             className={`px-4 py-2 rounded-lg  text-white`}
                         >
                             {'Follow'}

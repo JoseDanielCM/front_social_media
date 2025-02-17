@@ -8,6 +8,7 @@ import PostProfile  from "../../Components/Post/PostProfile";
 function Profile() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState([]);  // ⬅️ Estado para almacenar los posts
     const [isProfilePicValid, setIsProfilePicValid] = useState(true);
     const navigate = useNavigate();
     const { theme } = useTheme();
@@ -24,18 +25,21 @@ function Profile() {
         }
     };
 
-    useEffect(() => {
-        axios
-            .get("http://localhost:1234/api/user/me", { withCredentials: true })
+    const fetchUserData = () => {
+        axios.get("http://localhost:1234/api/user/me", { withCredentials: true })
             .then((response) => {
-                console.log(response.data);
                 setUser(response.data);
+                setPosts(response.data.posts);  // ⬅️ Guardamos los posts en el estado
                 setLoading(false);
             })
             .catch((error) => {
                 console.error("Error al obtener usuario", error);
                 setLoading(false);
             });
+    };
+
+    useEffect(() => {
+        fetchUserData();  // ⬅️ Llamamos a la función al montar el componente
     }, []);
 
     useEffect(() => {
@@ -55,7 +59,7 @@ function Profile() {
     }
 
     return (
-        <div id="profile" className={`md:ml-64 p-4 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
+        <div id="profile" className={`md:ml-64 p-4 pb-20 flex flex-col items-center min-h-screen ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
             <div className={`w-full max-w-3xl shadow-lg rounded-lg p-6 ${theme === 'dark' ? 'bg-gray-700' : 'bg-white'}`}>
                 <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full">
                     <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -111,7 +115,7 @@ function Profile() {
                     {
                     user.posts && user.posts.length > 0 ? (
                         user.posts.map((post) => (
-                            <PostProfile theme={theme} key={post.id} {...post} userAccount={user} />
+                            <PostProfile theme={theme} key={post.id} {...post} userAccount={user} refreshPosts={fetchUserData} />
                         ))
 
                     ) : (
