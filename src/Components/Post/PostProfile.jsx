@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Heart, Orbit, Edit, Trash, Save, X } from "lucide-react";
 import axios from "axios";
 import CommentModal from "../../Components/CommentModal"; // Importamos el modal
+import ImageModal from "../../Components/Post/ImageModal"; // Importamos el nuevo modal
 
-function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount, refreshPosts  }) {
+
+function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount, refreshPosts }) {
 
     // id -> post id
     const [likesPage, setLikesPage] = useState(likes.length);
@@ -23,6 +25,9 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
     const [editedTitle, setEditedTitle] = useState(title);
     const [editedContent, setEditedContent] = useState(content);
     const [editedImgUrl, setEditedImgUrl] = useState(img_url);
+
+    const [showImageModal, setShowImageModal] = useState(false);
+
     useEffect(() => {
         console.log(tags);
 
@@ -171,7 +176,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                     {/* Btn Delete */}
                     <button
                         className="bg-red-500 p-2 rounded-full hover:bg-red-600 transition duration-300"
-                            onClick={handleDelete}
+                        onClick={handleDelete}
                     >
                         <Trash size={20} color="white" />
                     </button>
@@ -194,9 +199,11 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
             {editing ? (
                 <input type="text" value={editedImgUrl} onChange={(e) => setEditedImgUrl(e.target.value)} placeholder="URL de la imagen" className="w-full p-2 border rounded mb-2" />
             ) : (
-                pImg && <img src={pImg} alt="Post image" className="w-full h-60 object-cover rounded-lg mt-2" />
+                pImg && <img src={pImg} alt="Post image" className="w-full h-60 object-cover rounded-lg mt-2 cursor-pointer"
+                    onClick={() => setShowImageModal(true)} />
             )}
 
+            {showImageModal && <ImageModal imgUrl={img_url} onClose={() => setShowImageModal(false)} />}
 
             {/* Sección de Tags */}
             {tags && tags.length > 0 && (
