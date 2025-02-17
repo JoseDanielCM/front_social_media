@@ -21,9 +21,14 @@ const Register = () => {
         const cookies = document.cookie.split(";");
         console.log(cookies);
         cookies.forEach(cookie => {
-          const cookieName = cookie.split("=")[0].trim();
-          document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+            const cookieName = cookie.split("=")[0].trim();
+            document.cookie = `${cookieName}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
         });
+
+        if (!isValidPassword(user.password)) {
+            setError("Password must be 8-12 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character (%$;&.,#).");
+            return;
+        }
 
         const age = calculateAge(user.birthdate);
         if (age < 0) {
@@ -41,9 +46,10 @@ const Register = () => {
             const response = await axios.post(
                 "http://localhost:1234/auth/register",
                 user,
-                { headers: { "Content-Type": "application/json" },
-                withCredentials: true
-            }
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true
+                }
             );
             if (response.status !== 200) throw new Error("Registration failed");
             navigate("/home")
@@ -56,6 +62,15 @@ const Register = () => {
             }
         }
     };
+
+    const isValidPassword = (password) => {
+        const minLength = 8;
+        const maxLength = 12;
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[%$;&.,#])[A-Za-z\d%$;&.,#]{8,12}$/;
+
+        return regex.test(password);
+    };
+
 
     const calculateAge = (birthdate) => {
         const birthDate = new Date(birthdate);
@@ -70,7 +85,7 @@ const Register = () => {
     };
 
     return (
-        <div className={`flex items-center justify-center min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'}`}>
+        <div className={`flex items-center justify-center min-h-screen transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
             <BtnTheme />
             <div className={`p-8 rounded-2xl shadow-md w-96 transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>

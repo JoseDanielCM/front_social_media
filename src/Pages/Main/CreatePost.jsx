@@ -12,7 +12,7 @@ function CreatePost({ theme }) {
     const [img_url, setimg_url] = useState("")
     const [showPreview, setShowPreview] = useState(false)
     const navigate = useNavigate();
-
+    const [error, setError] = useState("");
     // tags
     const [tags, setTags] = useState([]);
     const [tagInput, setTagInput] = useState("");
@@ -44,6 +44,13 @@ function CreatePost({ theme }) {
         e.preventDefault()
 
         try {
+
+            if(content.length<5 || content.length>500){
+                setError("El contenido debe tener entre 5 y 500 caracteres")
+                document.getElementById("content")?.scrollIntoView({ behavior: "smooth" });
+                return
+            }
+
             const user_id = user.id;
             const response = await axios.post(
                 "http://localhost:1234/api/posts/createPost",
@@ -80,7 +87,7 @@ function CreatePost({ theme }) {
     }
 
     return (
-        <div className={`min-h-screen p-5 md:ml-64 md:p-10 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+        <div className={`min-h-screen pb-20 p-5 md:ml-64 md:p-10  ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
             <div className="max-w-2xl mx-auto">
                 <h1 className={`text-3xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
                     Create New Post
@@ -101,10 +108,11 @@ function CreatePost({ theme }) {
                         ${theme === 'dark' ? 'bg-gray-700 border-gray-600 text-white' : 'border-gray-300'}`}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div id="content" className="space-y-2">
                         <label htmlFor="content" className={`block text-sm font-medium ${theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
                             Content
                         </label>
+                        {error && <div className="text-red-500">* {error}</div>}
                         <textarea
                             id="content"
                             placeholder="Write your post content here"

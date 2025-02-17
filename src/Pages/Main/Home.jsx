@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Post from "../../Components/Post";
 
-function Home({theme}) {
+function Home({ theme }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
+    const [sortBy, setSortBy] = useState("date");
 
     useEffect(() => {
         axios.get("http://localhost:1234/api/user/me", { withCredentials: true })
@@ -19,18 +20,22 @@ function Home({theme}) {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:1234/api/posts/getPosts", { withCredentials: true })
+        if (!user) return;
+
+        const endpoint = sortBy === "date" 
+            ? `http://localhost:1234/api/posts/getPostsByDate/${user.id}`
+            : `http://localhost:1234/api/posts/getPostsByInteractions/${user.id}`;
+
+        axios.get(endpoint, { withCredentials: true })
             .then(response => {
                 setPosts(response.data);
-                console.log(posts);
-                
                 setLoading(false);
             })
             .catch(error => {
-                console.error("Error al obtener usuario", error);
+                console.error("Error al obtener posts", error);
                 setLoading(false);
             });
-    }, [user]);
+    }, [user, sortBy]);
 
     if (loading) {
         return <p className={theme === "dark" ? "text-white" : "text-black"}>Cargando usuario...</p>;
@@ -41,16 +46,25 @@ function Home({theme}) {
     }
 
     return (
-        <div className={`md:ml-64 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
-    <h1>Bienvenido, {user.username}</h1>
-    <h1>ID: {user.id}</h1>
-    <div className="flex-1">
-        {posts.map((post) => (
-            <Post theme={theme} key={post.id} {...post} />
-        ))}
-    </div>
-</div>
-
+        <div className={`md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+            <h1 className="text-2xl font-bold my-4 text-center mb-0">Welcome, {user.username}</h1>
+            <div className="flex gap-2 mb-6 mt-3 justify-center">
+                <button 
+                    className={`px-4 py-2 rounded ${sortBy === "date" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} 
+                    onClick={() => setSortBy("date")}
+                >Chronological </button>
+                <button 
+                    className={`px-4 py-2 rounded ${sortBy === "popularity" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} 
+                    onClick={() => setSortBy("popularity")}
+                >Popularity</button>
+            </div>
+            <div className="flex-1">
+                {posts.length === 0 && <p className="text-center">No posts yet :(</p>}
+                {posts.map((post) => (
+                    <Post theme={theme} key={post.id} {...post} userAccount={user} />
+                ))}
+            </div>
+        </div>
     );
 }
 

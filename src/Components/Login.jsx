@@ -45,7 +45,7 @@ const Login = () => {
     };
 
     return (
-        <div className={`flex min-h-screen items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-black text-white' : 'bg-gray-100 text-gray-900'}`}>
+        <div className={`flex min-h-screen items-center justify-center transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
             <BtnTheme />
             <div className={`w-full max-w-md p-6 rounded-2xl shadow-lg transition-colors duration-300 ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
                 <h2 className="text-2xl font-bold text-center mb-6">Login</h2>

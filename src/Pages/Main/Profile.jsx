@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import LogoutButton from "../../Components/LogoutButton";
 import { useTheme } from '../../Util/ThemeContext';
+import PostProfile  from "../../Components/Post/PostProfile";
 
 function Profile() {
     const [user, setUser] = useState(null);
@@ -106,17 +107,13 @@ function Profile() {
                 <h3 className="text-lg font-semibold mb-4">Publicaciones</h3>
 
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-2 gap-10">
                     {
                     user.posts && user.posts.length > 0 ? (
-                        user.posts.map((post, index) => (
-                            <img
-                                key={index}
-                                src={post.imageUrl}
-                                alt="Post"
-                                className="w-full h-32 object-cover rounded-lg"
-                            />
+                        user.posts.map((post) => (
+                            <PostProfile theme={theme} key={post.id} {...post} userAccount={user} />
                         ))
+
                     ) : (
                         <p className="text-gray-500">No hay publicaciones aún.</p>
                     )}

@@ -42,7 +42,7 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
             <div className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} rounded-lg p-4 w-96 max-h-120 flex flex-col`}>
                 {/* Header */}
                 <div className="flex justify-between items-center">
-                    <h2 className="text-lg font-bold">Comentarios</h2>
+                    <h2 className="text-lg font-bold">Comments</h2>
                     <button onClick={onClose} className={theme === 'dark' ? 'text-white' : 'text-black'}>
                         <X size={24} />
                     </button>
@@ -55,7 +55,7 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                             <Comment key={comment.id || index} comment={comment} theme={theme} />
                         ))
                     ) : (
-                        <p className="text-gray-500">No hay comentarios aún.</p>
+                        <p className="text-gray-500">No Comments yet.</p>
                     )}
                 </div>
 
