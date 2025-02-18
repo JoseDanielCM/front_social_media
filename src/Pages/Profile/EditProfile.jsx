@@ -27,24 +27,36 @@ function EditProfile({ theme }) {
     // Manejo de envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
-        profileData.userId = user.id
+        profileData.userId = user.id;
+    
         try {
             const response = await axios.put(
-                'http://localhost:1234/api/profile', // Endpoint para actualizar el perfil
-                profileData, // Datos que se van a enviar en el cuerpo de la solicitud
+                'http://localhost:1234/api/profile',
+                profileData,
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    withCredentials: true, // Asegurarse de enviar cookies
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
                 }
             );
             console.log('Perfil actualizado:', response.data);
+    
+            // Actualizar estado del usuario
+            setUser((prevUser) => ({
+                ...prevUser,
+                first_name: profileData.name,
+                last_name: profileData.lastname,
+                bio: profileData.bio,
+                profile_picture: profileData.profilePhotoUrl,
+                phone: profileData.phoneNumber,
+            }));
+    
+            // Navegar después de actualizar el estado
+            navigate("/profile");
         } catch (error) {
             console.error('Error al actualizar el perfil:', error);
         }
-
     };
+    
 
     useEffect(() => {
         axios.get("http://localhost:1234/api/user/me", { withCredentials: true })
@@ -149,7 +161,6 @@ function EditProfile({ theme }) {
                     />
                 </div>
                 <button
-                    onClick={()=>navigate("/profile")}
                     type="submit"
                     className={`w-full px-4 py-2 text-white font-medium rounded-md ${theme === "dark" ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-500 hover:bg-blue-600"
                         } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors`}

@@ -126,7 +126,7 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                         {loading ? "Comentando..." : "Comentar"}
                     </button>
                     <div>
-                        <strong>Menciones detectadas:</strong> {mentions.join(", ")}
+                        <strong>Mentions detected:</strong> {mentions.join(", ")}
                     </div>
                 </div>
             </div>

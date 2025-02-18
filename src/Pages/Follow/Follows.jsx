@@ -33,7 +33,7 @@ function Follows({ theme }) {
                 onClick={handleBackToProfile}
                 className="mb-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
-                Volver al perfil
+                Back to profile
             </button>
             <div className="flex flex-col items-center ">
                 {Follows.map((follower) => (
