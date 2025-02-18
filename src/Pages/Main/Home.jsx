@@ -62,7 +62,10 @@ function Home({ theme }) {
                 <span className="font-semibold">{user.username}</span>
             </div>
 
-            <h1 className="text-2xl font-bold my-4 text-center mb-0">Welcome, {user.username}</h1>
+            {/* Título de bienvenida */}
+            <h1 className="text-2xl font-bold my-4 text-center mb-0 md:mb-8 pt-16 md:pt-0">Welcome, {user.username}</h1>
+
+            {/* Botones de filtro */}
             <div className="flex gap-2 mb-6 mt-3 justify-center">
                 <button 
                     className={`px-4 py-2 rounded ${sortBy === "date" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`} 
@@ -73,6 +76,7 @@ function Home({ theme }) {
                     onClick={() => setSortBy("popularity")}
                 >Popularity</button>
             </div>
+
             <div className="flex-1">
                 {posts.length === 0 && <p className="text-center">No posts yet :(</p>}
                 {posts.map((post) => (

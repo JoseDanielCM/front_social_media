@@ -39,7 +39,7 @@ const Notification = ({ theme }) => {
     if (loading) return <p>Cargando usuario...</p>;
 
     return (
-        <div className={`md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+        <div className={`md:ml-64 pb-20 p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
             <h2 className="text-2xl font-bold mb-4">Notificaciones</h2>
             <div className="space-y-4">
                 {notifications.length === 0 ? (
