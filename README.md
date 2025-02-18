@@ -245,7 +245,7 @@ Alternativamente, puedes crear tu propio usuario utilizando la opción de regist
 
 ## 5️⃣ Documentación de la API
 Para visualizar la documentación de la API en PDF:  
-- [Abrir documentación en PDF](documentacion.pdf)
+- [Abrir documentación en PDF](/public/ApiDocumentation.pdf)
 
 
 ---
