@@ -44,7 +44,7 @@ export default function AppRoutes() {
                 <Routes>
                   <Route path="/" element={<Home theme={theme} />} />
                   <Route path="/home" element={<Home theme={theme} />} />
-                  <Route path="/notification" element={<Notification />} />
+                  <Route path="/notification" element={<Notification  theme={theme} />} />
                   <Route path="/post" element={<CreatePost theme={theme} />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/search" element={<Search theme={theme} />} />

@@ -79,6 +79,12 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
 
     };
 
+    const handleCommentDelete = (commentId) => {
+        setLocalComments((prevComments) =>
+            prevComments.filter((comment) => comment.id !== commentId)
+        );
+    };
+
     return (
         <div className={`fixed inset-0 ${theme === 'dark' ? 'bg-black/80' : 'bg-black/60'} flex justify-center items-center`}>
             <div className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} rounded-lg p-4 w-96 max-h-120 flex flex-col`}>
@@ -94,7 +100,8 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
                 <div className="flex-1 overflow-y-auto mt-4">
                     {localComments.length > 0 ? (
                         localComments.map((comment, index) => (
-                            <Comment key={comment.id || index} comment={comment} theme={theme} mentions={mentions} />
+                            <Comment key={comment.id || index} comment={comment} theme={theme} mentions={mentions} originalUser={idUser} 
+                            onDelete={() => handleCommentDelete(comment.id)}                            />
                         ))
                     ) : (
                         <p className="text-gray-500">No Comments yet.</p>

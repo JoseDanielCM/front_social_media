@@ -48,7 +48,7 @@ function Home({ theme }) {
     }
 
     return (
-        <div className={`relative md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
+        <div className={`md:ml-64 pb-20 md:p-5 md:pl-5 min-h-screen flex flex-col ${theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"}`}>
             {/* Perfil en la esquina superior derecha */}
             <div 
                 className="absolute top-4 right-4 flex items-center gap-2 cursor-pointer hover:opacity-80"
