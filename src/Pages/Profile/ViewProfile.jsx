@@ -38,38 +38,32 @@ function ViewProfile({ theme }) {
         }
     }, [user]);
 
-    // info user pagina
+
+
     useEffect(() => {
-        axios
-            .get(`http://localhost:1234/api/user/getUser/${user_id}`, { withCredentials: true })
-            .then((response) => {
-                console.log(response.data);
-                setUser(response.data);
-                // setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error al obtener usuario", error);
-                setLoading(false);
-            });
-    }, [user_id]);
+        // Cargar información del usuario y verificar si está siendo seguido
 
-    // check if its followed
-    useEffect(() => {
-        if (!user) return;
-        if (!original) return;
-
-        axios.get(`http://localhost:1234/api/follows/isFollowed/${original.id}/${user.id}`, { withCredentials: true })
-            .then(response => {
-                setIsFollowed(response.data);
+        const fetchUserData = async () => {
+            try {
+                // Primero, obtenemos el perfil del usuario
+                const userResponse = await axios.get(`http://localhost:1234/api/user/getUser/${user_id}`, { withCredentials: true });
+                setUser(userResponse.data);
+                
+                // Luego verificamos si está siendo seguido
+                const followResponse = await axios.get(`http://localhost:1234/api/follows/isFollowed/${original.id}/${userResponse.data.id}`, { withCredentials: true });
+                setIsFollowed(followResponse.data);
+                
                 setLoading(false);
-                console.log(isFollowed);
-
-            })
-            .catch(error => {
-                console.error("Error al obtener usuario del post", error);
+            } catch (error) {
+                console.error("Error al obtener usuario y seguir:", error);
                 setLoading(false);
-            });
-    }, [user]);
+            }
+        };
+    
+        if (user_id, original) {
+            fetchUserData();
+        }
+    }, [user_id, original]);
 
     const handleFollow = async () => {
         if (isFollowed) {
