@@ -112,7 +112,7 @@ const SearchComponent = ({ theme }) => {
                         ))}
                     </div>
                 ) : (
-                    <p className={textClasses}>No se encontraron usuarios.</p>
+                    <p className={textClasses}>Couldnt find users.</p>
                 )}
             </div>
         </div>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Heart, Orbit, X } from "lucide-react";
 import axios from "axios";
-import CommentModal from "../Components/CommentModal"; // Importamos el modal
-import ImageModal from "../Components/Post/ImageModal"; // Importamos el nuevo modal
+import CommentModal from "../Components/CommentModal"; 
+import ImageModal from "../Components/Post/ImageModal"; 
 import { useNavigate } from "react-router-dom";
 
 function Post({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
@@ -146,7 +146,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                     comments={postComments}
                     onClose={() => {
                         setShowComments(false);
-                        updateComments(); // Llamamos a la actualización cuando se cierra
+                        updateComments(); 
                     }}
                 />
             )}

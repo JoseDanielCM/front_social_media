@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function Comment({ comment, theme ,originalUser : idUser, onDelete  }) {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate(); // Inicializamos useNavigate
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -41,12 +41,11 @@ function Comment({ comment, theme ,originalUser : idUser, onDelete  }) {
         const mentionRegex = /@([a-zA-Z0-9_]+)/g;
         return content.split(mentionRegex).map((part, index) => {
             if (index % 2 === 1) {
-                // Llamamos a handleMentionClick cuando se hace clic en una mención
                 return (
                     <span 
                         key={index} 
                         className="text-blue-500 cursor-pointer"
-                        onClick={() => handleMentionClick(part)} // Aquí manejamos el clic
+                        onClick={() => handleMentionClick(part)} 
                     >
                         @{part}
                     </span>
@@ -58,13 +57,11 @@ function Comment({ comment, theme ,originalUser : idUser, onDelete  }) {
 
     const handleMentionClick = async (mention) => {
         try {
-            // Hacer una solicitud para obtener el ID del usuario basado en la mención
             const response = await axios.get(`http://localhost:1234/api/user/getUser?username=${mention}`,{withCredentials:true});
             
             const userId = response.data.id;
-            if (userId) {
+            if (userId && userId !== idUser) {
                 navigate(`/view-profile/${userId}`);
-                // Redirigir a la página de perfil con el ID del usuario
             }
         } catch (error) {
             console.error("Error al obtener el ID del usuario:", error);
@@ -76,7 +73,6 @@ function Comment({ comment, theme ,originalUser : idUser, onDelete  }) {
             await axios.delete(`http://localhost:1234/api/comments/deleteComment/${comment.id}`, {
                 withCredentials: true
             });
-            // Aquí podrías agregar lógica para actualizar el estado y quitar el comentario de la vista.
             console.log("Comentario borrado con éxito");
             onDelete(); 
         } catch (error) {

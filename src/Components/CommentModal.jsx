@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { useState, useEffect } from "react";
-import Comment from "./InternalComponent/Comment"; // Importamos el nuevo componente
+import Comment from "./InternalComponent/Comment"; 
 import axios from "axios";
 
 function CommentModal({ idUser, idPost, comments, onClose, theme }) {
@@ -20,7 +20,6 @@ function CommentModal({ idUser, idPost, comments, onClose, theme }) {
         const value = e.target.value;
         setNewComment(value)
 
-        // Expresión regular para detectar palabras que comienzan con "@"
         const mentionPattern = /@(\w+)/g;
         const foundMentions = [...value.matchAll(mentionPattern)].map(match => match[1]);
 

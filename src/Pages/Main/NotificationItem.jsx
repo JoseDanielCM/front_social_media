@@ -24,13 +24,13 @@ const NotificationItem = ({ notification, markAsRead, theme }) => {
     const renderNotificationText = () => {
         switch (notification.notification_type) {
             case "LIKE":
-                return `${user?.username} le dio like a tu publicación.`;
+                return `${user?.username} liked your post.`;
             case "COMMENT":
-                return `${user?.username} comentó en tu publicación.`;
+                return `${user?.username} commented your post`;
             case "FOLLOW":
-                return `${user?.username} comenzó a seguirte.`;
+                return `${user?.username} followed you.`;
             case "MENTION":
-                return `${user?.username} te mencionó en un comentario.`;
+                return `${user?.username} mentioned you in a comment.`;
             default:
                 return "Tienes una nueva notificación.";
         }

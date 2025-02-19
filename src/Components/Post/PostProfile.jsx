@@ -82,7 +82,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
 
         try {
             await axios.delete(`http://localhost:1234/api/posts/delete/${id}`, { withCredentials: true });
-            refreshPosts(id); // Notificar al padre para actualizar los posts
+            refreshPosts(id); 
         } catch (error) {
             console.error("Error al eliminar el post", error);
             alert("Hubo un error al eliminar el post");
@@ -100,7 +100,6 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
 
     const handleSubmit = async () => {
         try {
-            // Crear el objeto con los datos editados
             const updatedPost = {
                 title: editedTitle,
                 content: editedContent,
@@ -108,9 +107,8 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
             };
             console.log(updatedPost);
 
-            // Realizar la petición PUT (reemplaza `postId` con el id real)
             await axios.put(`http://localhost:1234/api/posts/update/${id}`, updatedPost, {
-                withCredentials: true, // Habilita el envío de cookies
+                withCredentials: true, 
             });
 
 
@@ -136,7 +134,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                 , { withCredentials: true }
 
             );
-            setPostComments(response.data); // Actualizar comentarios con los nuevos obtenidos
+            setPostComments(response.data); 
         } catch (error) {
             console.error("Error al actualizar comentarios", error);
         }
@@ -252,7 +250,7 @@ function Post({ id, title, content, created_at, img_url, likes, comments, tags, 
                     comments={postComments}
                     onClose={() => {
                         setShowComments(false);
-                        updateComments(); // Llamamos a la actualización cuando se cierra
+                        updateComments(); 
                     }}
                 />
             )}

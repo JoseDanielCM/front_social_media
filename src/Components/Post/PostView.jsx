@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Heart, Orbit, X } from "lucide-react";
 import axios from "axios";
-import CommentModal from "../../Components/CommentModal"; // Importamos el modal
-import ImageModal from "../../Components/Post/ImageModal"; // Importamos el nuevo modal
+import CommentModal from "../../Components/CommentModal"; 
+import ImageModal from "../../Components/Post/ImageModal"; 
 
 function PostView({ id, title, content, created_at, img_url, likes, comments, tags, theme, userAccount }) {
     const [likesPage, setLikesPage] = useState(likes.length);
     const [liked, setLiked] = useState(false);
-    // usuario que creo el post
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showComments, setShowComments] = useState(false);
@@ -69,7 +68,7 @@ function PostView({ id, title, content, created_at, img_url, likes, comments, ta
                 , { withCredentials: true }
 
             );
-            setPostComments(response.data); // Actualizar comentarios con los nuevos obtenidos
+            setPostComments(response.data); 
         } catch (error) {
             console.error("Error al actualizar comentarios", error);
         }
@@ -142,7 +141,7 @@ function PostView({ id, title, content, created_at, img_url, likes, comments, ta
                     comments={postComments}
                     onClose={() => {
                         setShowComments(false);
-                        updateComments(); // Llamamos a la actualización cuando se cierra
+                        updateComments(); 
                     }}
                 />
             )}

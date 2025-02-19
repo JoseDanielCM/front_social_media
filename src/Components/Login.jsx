@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from '../Util/ThemeContext'
 import BtnTheme from '../Components/BtnTheme'
 
-// Elimina la cookie especificando el nombre
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -28,11 +27,11 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:1234/auth/login", // Authentication endpoint
-                credentials, // Request body with user credentials
+                "http://localhost:1234/auth/login", 
+                credentials, 
                 { headers: { "Content-Type": "application/json" },
-                withCredentials: true // Habilita el uso de cookies
-            } // Set header for JSON
+                withCredentials: true 
+            } 
             );
             navigate("/home")
         } catch (error) {

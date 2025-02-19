@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import axios from "axios";
-import { Link } from 'react-router-dom';  // Importa Link de react-router-dom
+import { Link } from 'react-router-dom';  
 
 const NotificationComponent = () => {
     const [user, setUser] = useState(null);
@@ -34,16 +34,13 @@ const NotificationComponent = () => {
 
 
                     if (user && user.id === notification.userId) {
-                    // Solo agregar la notificación si el ID coincide
                     setNotifications((prevNotifications) => [
                         ...prevNotifications,
                         { id: Date.now(), text: notification.message, userId: notification.userId, user: notification.user }
                     ]);
 
-                    console.log(notification);
-                    console.log(user); // Aquí puedes ver si 'user' es el correcto
+                    
 
-                    // Eliminar notificación después de 5 segundos
                     setTimeout(() => {
                         setNotifications((prev) => prev.slice(1));
                     }, 5000);

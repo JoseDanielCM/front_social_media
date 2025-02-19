@@ -147,7 +147,7 @@ function ViewProfile({ theme }) {
             </div>
             <div className="w-full max-w-3xl mt-6">
                 <h3 className="text-lg font-semibold mb-4">Posts</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-2 gap-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
                     {
                         user.posts && user.posts.length > 0 ? (
                             user.posts.map((post) => (
