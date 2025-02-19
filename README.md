@@ -1,146 +1,146 @@
 # Astralis - FrontEnd
 
-## 1️⃣ Descripción del Proyecto
+## 1️⃣ Description of the project
 
-### 📢 Contexto
-En la era digital, las redes sociales han revolucionado la forma en que las personas se comunican e interactúan. **Astralis** es una plataforma que permite a los usuarios compartir pensamientos, interactuar con otros y mantenerse conectados de una manera dinámica e intuitiva.
+### 📢 Context
+In the digital age, social networks have revolutionized the way people communicate and interact. **Astralis** is a platform that allows users to share thoughts, interact with others, and stay connected in a dynamic and intuitive way.
 
-Este proyecto consiste en desarrollar una red social donde los usuarios puedan:
-- Crear publicaciones con texto e imágenes (a través de enlaces).
-- Comentar en publicaciones de otros.
-- Reaccionar a publicaciones.
-- Seguir a otros usuarios.
-- Recibir notificaciones sobre interacciones relevantes.
+This project involves developing a social network where users can:
+- Create posts with text and images (via links).
+- Comment on other users' posts.
+- React to posts.
+- Follow other users.
+- Receive notifications about relevant interactions.
 
-El backend está desarrollado con **Spring Boot**, utilizando **PostgreSQL** como base de datos, **JWT** para autenticación y **React** para frontend .
+The backend is developed with **Spring Boot**, using **PostgreSQL** as the database, **JWT** for authentication, and **React** for the frontend.
 
 ---
 
 ![Base de datos](/public/DataBase.png)
 
-## 2️⃣ Requerimientos del Proyecto
+## 2️⃣ Project Requirements
 
-### 📌 Requerimientos Funcionales
+### 📌 Functional Requirements
 
-#### 1️⃣ Gestión de Usuarios
-- Registro de usuario con:
-  - Nombre completo.
-  - Nombre de usuario único.
-  - Número de celular.
-  - Correo electrónico único.
-  - Fecha de nacimiento (se validan mínimos 14 años de edad).
-  - Contraseña segura (8-12 caracteres, con al menos una mayúscula, una minúscula, un número y un símbolo especial).
-- Autenticación segura con JWT.
-- Cifrado de contraseñas con BCrypt.
-- Edición de perfil (nombre, biografía, foto de perfil mediante URL, número de celular).
+#### 1️⃣ User Management
+- User registration with:
+  - Full name.
+  - Unique username.
+  - Phone number.
+  - Unique email.
+  - Date of birth (minimum age of 14 years is validated).
+  - Secure password (8-12 characters, with at least one uppercase letter, one lowercase letter, one number, and one special character).
+- Secure authentication with JWT.
+- Password encryption with BCrypt.
+- Profile editing (name, bio, profile picture via URL, phone number).
 
 --- 
 
 ![Imagen de Gestión de Usuarios](/public/LoginReadme.png)
 ---
-**Contraseñas guardadas en la base de datos**
+**Passwords stored in the database**
 
 ![Imagen de Gestión de Usuarios](/public/PasswordsDB.png)
 
-**Edicion de perfil**
+**Profile Editing**
 ![Imagen de Gestión de Usuarios](/public/EditProfile.png)
 
 
-
-#### 2️⃣ Publicaciones
-- Creación de publicaciones con:
-  - Texto obligatorio (5-500 caracteres).
-  - Imagen opcional (URL).
-  - Tags personalizables (#Ejemplo).
+#### 2️⃣ Posts
+- Creating posts with:
+  - Required text (5-500 characters).
+  - Optional image (URL).
+  - Customizable tags (#Example).
 
 ![Imagen de Gestión de Usuarios](/public/CreatePost.png)
 
 
-- Edición y eliminación de publicaciones por el autor.
+- Editing and deleting posts by the author.
 
 ![Imagen de Gestión de Usuarios](/public/EditPost.png)
 
 
-- Ordenamiento de publicaciones:
-  - Cronológico.
-  - Por relevancia (según interacciones).
+- Sorting posts:
+  - Chronologically.
+  - By relevance (based on interactions).
 
 ![Ejemplo de imagen](/public/HomePosts.png)
 
-#### 3️⃣ Interacciones
-- Comentarios en publicaciones (máximo 200 caracteres).
-- Etiquetado de usuarios (@usuario).
-- Reacciones a publicaciones (“Me gusta” con opción de quitarlo).
-- Resumen de interacciones en cada publicación:
-  - Total de reacciones.
-  - Total de comentarios.
+#### 3️⃣ Interactions
+- Comments on posts (maximum 200 characters).
+- User tagging (@user).
+- Reactions to posts ("Like" with the option to remove it).
+- Summary of interactions on each post:
+  - Total reactions.
+  - Total comments.
 
 ![Imagen de Interacciones](/public/Mentions.png)
 
-**Informacion de posts**
+**Post Information**
+
 ![Imagen de Interacciones](/public/InformationPost.png)
 
-#### 4️⃣ Seguimiento de Usuarios
-- Seguir/dejar de seguir a otros usuarios.
-- Sección de inicio con publicaciones de usuarios seguidos.
-- Listado de seguidores y seguidos.
+#### 4️⃣ User Following
+- Follow/unfollow other users.
+- Home section with posts from followed users.
+- List of followers and following.
 
 ![Imagen de Seguimiento de Usuarios](/public/FollowUnfollow.png)
 ![Imagen de Seguimiento de Usuarios](/public/Follows.png)
 
-#### 5️⃣ Notificaciones
-- Se notificará cuando:
-  - Se reciba un comentario en una publicación.
-  - Se reciba un “Me gusta”.
-  - Se sea etiquetado en una publicación.
-  - Se obtenga un nuevo seguidor.
+#### 5️⃣ Notifications
+- Notifications will be sent when:
+  - A comment is received on a post.
+  - A "Like" is received.
+  - A user is tagged in a post.
+  - A new follower is gained.
 
 ![Imagen de Notificaciones](/public/Notification.png)
 
 ---
 
-## 3️⃣ Tecnologías Utilizadas
+## 3️⃣ Technologies Used
 
 ### 📌 Backend
-- **Spring Boot con Java 17**
-- **Spring Data JPA con Hibernate**
+- **Spring Boot with Java 17**
+- **Spring Data JPA with Hibernate**
 - **PostgreSQL**
-- **Spring Security con JWT**
-- **Swagger** (para documentar la API)
-- **Arquitectura modular** (DTOs, Services, Entities, Controllers)
+- **Spring Security with JWT**
+- **Swagger** (for API documentation)
+- **Modular Architecture** (DTOs, Services, Entities, Controllers)
 
-### 📌 Seguridad y Validaciones
-- Validación de edad (solo mayores de 14 años pueden registrarse).
-- Verificación de URLs en imágenes para evitar contenido malicioso.
+### 📌 Security and Validations
+- Age validation (only users over 14 years old can register).
+- URL verification in images to prevent malicious content.
 
 ---
 
-## 4️⃣ Instalación y Configuración
+## 4️⃣ Installation and Setup
 
-### 📌 Requisitos Previos
-- Tener **Java 17** instalado.
-- Tener **Maven** instalado.
-- Tener una base de datos **PostgreSQL** configurada.
+### 📌 Prerequisites
+- Have **Java 17** installed.
+- Have **Maven** installed.
+- Have a **PostgreSQL** database configured.
 
-### 📌 Pasos de Instalación
-1. Clonar el repositorio del backend:
-🔗 [Enlace al repositorio del backend](https://github.com/JoseDanielCM/socialapp)
-2. Crear la base de datos en postgreSQL `astralis`.
-3. Configurar el usuario y la contraseña de la base de datos en el archivo `application.properties`
+### 📌 Installation Steps
+1. Clone the backend repository:
+🔗 [Backend Repository Link](https://github.com/JoseDanielCM/socialapp)
+2. Create the database in PostgreSQL named `astralis`.
+3. Configure the database user and password in the `application.properties` file.
 
-Abre el archivo `application.properties` y ajusta los siguientes parámetros según tus necesidades:
+Open the `application.properties` file and adjust the following parameters as needed:
 
-- **Usuario (user)**: `postgres`
-- **Contraseña (password)**: `campus2023`
+- **User (username)**: `postgres`
+- **Password (password)**: `campus2023`
 
-Por defecto, los valores son los siguientes:
+By default, the values are:
 ```properties
 spring.datasource.username=postgres
 spring.datasource.password=campus2023
 ```
 
-3. Ejecutar el spring boot:
-4. Ejecutar el siguiente codigo sql:
+4. Run the Spring Boot application.
+5. Execute the following SQL script to set up notifications and insert test data.
 
 ```sql
 CREATE OR REPLACE FUNCTION create_follow_notification()
@@ -252,58 +252,57 @@ INSERT INTO public."comments" ("content",created_at,updated_at,user_id,post_id) 
 
 
 ```
-5. Clonar el repositorio del frontend:
-    El código del frontend desarrollado con **React** se encuentra en el siguiente repositorio:
-🔗 [Enlace al repositorio del frontend](https://github.com/JoseDanielCM/front_social_media)
+6. Clone the frontend repository:
+    The frontend code developed with **React** is available in the following repository:
+🔗 [Frontend Repository Link](https://github.com/JoseDanielCM/front_social_media)
 
-6. En el proyecto frontend, ejecutar el siguiente comando:
+7. In the frontend project, run the following command:
 ```sh
 npm install
 ```
 
-7. Ejecutar el frontend:
-Para iniciar el frontend, utiliza el siguiente comando:
+8. Run the frontend:
+To start the frontend, use the following command:
 ```sh
 npm run dev
 ```
 
-8. Iniciar sesión:
-Puedes iniciar sesión con alguno de los usuarios predefinidos en la base de datos. Ejemplo:
+9. Log in:
+You can log in with one of the predefined users in the database. Example:
 
-    Username: lilith
+    Username: Lilith
 
     Password: Sun$et18
 
-Alternativamente, puedes crear tu propio usuario utilizando la opción de registro.
+Alternatively, you can create your own user using the registration option.
+---
+
+
+## 5️⃣ API Documentation
+To view the API documentation in PDF:
+- [Open API Documentation PDF](/public/ApiDocumentation.pdf)
 
 ---
 
-## 5️⃣ Documentación de la API
-Para visualizar la documentación de la API en PDF:  
-- [Abrir documentación en PDF](/public/ApiDocumentation.pdf)
-
-
+## 6️⃣ Project Submission
+This repository includes:
+- Complete source code.
+- API documentation with Swagger.
+- Database diagram (Entity-Relationship Model).
+![Notifications Image](/public/Notification.png)
+- Demonstration video of the application.
+🔗 [Application Demo Video](https://github.com/JoseDanielCM/front_social_media)
 ---
 
-## 6️⃣ Entrega del Proyecto
-Este repositorio incluirá:
-- Código fuente completo.
-- Documentación de la API con Swagger.
-- Diagrama de base de datos (Modelo Entidad-Relación).
-![Imagen de Notificaciones](/public/Notification.png)
-- Video demostrativo de la aplicación.
-🔗 [Enlace al video explicativo de la aplicacion](https://github.com/JoseDanielCM/front_social_media)
----
-
-## 7️⃣ Video Demostrativo
-El video muestra:
-- Registro e inicio de sesión.
-- Creación, edición y eliminación de publicaciones.
-- Interacciones (comentarios, likes y etiquetado).
-- Modo oscuro y claro con persistencia.
-- Notificaciones y sistema de seguimiento.
+## 7️⃣ Demonstration Video
+The video showcases:
+- User registration and login.
+- Creating, editing, and deleting posts.
+- Interactions (comments, likes, and tagging).
+- Light and dark mode with persistence.
+- Notifications and follow system.
 ---
 🔗 [Enlace a video](https://drive.google.com/drive/folders/1cWJ4MmkDo_sUpR_IyPlAG3hdH6vboo5F?usp=sharing)
 
-¡Gracias por tu interés en **Astralis**! 🚀
+Thank you for your interest in **Astralis**! 🚀
 
